@@ -3,7 +3,7 @@
 [![Build container image](https://github.com/tulilirockz/carinata/actions/workflows/build.yml/badge.svg)](https://github.com/tulilirockz/carinata/actions/workflows/build.yml)
 [![Build disk image](https://github.com/tulilirockz/carinata/actions/workflows/build-image.yml/badge.svg)](https://github.com/tulilirockz/carinata/actions/workflows/build-image.yml)
 
-[Bootc-based](https://www.cncf.io/projects/bootc/) [appliance image](https://github.com/tulilirockz/carinata) with automatic updates and docker support for use with [Lima](https://lima-vm.io/).
+[Bootc-based](https://www.cncf.io/projects/bootc/) appliance image with automatic updates and docker support for use with [Lima](https://lima-vm.io/).
 
 ## Usage
 
