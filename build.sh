@@ -43,6 +43,8 @@ dnf -y remove \
 
 dnf install -y cloud-init
 
+dnf swap -y fedora-release-identity-basic fedora-release-identity-cloud
+
 dnf -y install --setopt=install_weak_deps=False \
   console-login-helper-messages \
   console-login-helper-messages-issuegen \
@@ -52,8 +54,6 @@ dnf -y install --setopt=install_weak_deps=False \
   git-core \
   rsync \
   strip \
-  fedora-release-identity-cloud \
-  fedora-release-cloud \
   systemd-container \
   systemd-journal-remote \
   systemd-networkd \
