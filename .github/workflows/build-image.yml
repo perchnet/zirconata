@@ -54,4 +54,4 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           OUTPUT_DIRECTORY: ${{ steps.build-iso.outputs.output-directory }}
         run: |
-          gh release upload --clobber rolling "$(find "${OUTPUT_DIRECTORY}" -type f)"
+          gh release upload --clobber rolling $(find "${OUTPUT_DIRECTORY}" -type f)
