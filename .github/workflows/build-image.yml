@@ -14,8 +14,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_push:
-    name: Build and push image
+  build_release:
+    name: Build and release disk image
     permissions:
       contents: write
     timeout-minutes: 60
@@ -31,7 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
 
-      - name: Build image
+      - name: Build disk image
         id: build-iso
         uses: osbuild/bootc-image-builder-action@v0.0.2
         with:
@@ -55,5 +55,5 @@ jobs:
           PLATFORM: ${{ matrix.platform }}
           IMAGE_NAME: "${{ github.event.repository.name }}"
         run: |
-          mv "$(find "${OUTPUT_DIRECTORY}" -iname "*.qcow2"  | head -n 1)" "./carinata-${IMAGE_NAME}.qcow2"
+          sudo mv "$(find "${OUTPUT_DIRECTORY}" -iname "*.qcow2"  | head -n 1)" "./${IMAGE_NAME}-${PLATFORM}.qcow2"
           gh release upload --clobber rolling ./*.qcow2
