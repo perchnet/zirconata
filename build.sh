@@ -96,6 +96,15 @@ EOF
 
 systemctl preset systemd-resolved.service
 
+dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
+dnf config-manager setopt docker-ce-stable.enabled=0
+dnf -y install --enablerepo='docker-ce-stable' docker-ce docker-ce-cli docker-compose-plugin
+systemctl enable docker
+systemctl preset docker.service docker.socket
+mkdir -p /usr/lib/sysctl.d
+echo "net.ipv4.ip_forward = 1" | tee /usr/lib/sysctl.d/docker-ce.conf
+echo "g docker -" | tee /usr/lib/sysusers.d/docker.conf
+
 KERNEL_VERSION="$(find "/usr/lib/modules" -maxdepth 1 -type d ! -path "/usr/lib/modules" -exec basename '{}' ';' | sort | tail -n 1)"
 export DRACUT_NO_XATTR=1
 dracut --no-hostonly --kver "$KERNEL_VERSION" --reproducible --zstd -v --add ostree -f "/usr/lib/modules/$KERNEL_VERSION/initramfs.img"
