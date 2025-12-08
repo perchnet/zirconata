@@ -1,0 +1,51 @@
+---
+name: Build disk image
+on:
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: "0 1 * * TUE"
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**/README.md"
+  workflow_dispatch:
+
+jobs:
+  build_push:
+    name: Build and push image
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ["amd64", "arm64"]
+    runs-on: ${{ matrix.platform == 'amd64' && 'ubuntu-24.04' || 'ubuntu-24.04-arm' }}
+    outputs:
+      image_tag: ${{ steps.build.outputs.image_tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Build ISO
+        id: build-iso
+        uses: osbuild/bootc-image-builder-action@v0.0.2
+        with:
+          config-file: ./disk-image.config.toml
+          image: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+          rootfs: btrfs
+          types: qcow2
+          additional-args: --use-librepo=True
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-${{ matrix.platform }}
+          path: ${{ steps.build-iso.outputs.output-directory }}
+          if-no-files-found: error
