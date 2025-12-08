@@ -17,12 +17,9 @@ mkdir -p /var/lib/rpm-state/
 touch /var/lib/rpm-state/nfs-server.cleanup
 
 dnf -y remove \
-  NetworkManager \
   adcli \
-  bash-completion \
   bind-utils \
   chrony \
-  cloud-utils-growpart \
   criu* \
   efibootmgr \
   ethtool \
@@ -30,7 +27,6 @@ dnf -y remove \
   jq \
   libdnf-plugin-subscription-manager \
   nano \
-  net-tools \
   nfs-server \
   nfs-utils \
   pkg-config* \
@@ -42,10 +38,10 @@ dnf -y remove \
   stalld \
   subscription-manager \
   subscription-manager-rhsm-certificates \
-  sudo-python-plugin \
   toolbox \
-  virt-what \
   yggdrasil*
+
+dnf install -y cloud-init
 
 dnf -y install --setopt=install_weak_deps=False \
   console-login-helper-messages \
@@ -53,7 +49,6 @@ dnf -y install --setopt=install_weak_deps=False \
   console-login-helper-messages-motdgen \
   console-login-helper-messages-profile \
   distrobox \
-  firewalld \
   git-core \
   rsync \
   strip \
@@ -71,8 +66,7 @@ dnf -y install --setopt=install_weak_deps=False \
   udisks2-lvm2 \
   xdg-user-dirs
 
-systemctl enable firewalld
-systemctl enable systemd-networkd
+systemctl enable NetworkManager
 systemctl enable systemd-timesyncd
 
 sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/bootc update --quiet|' /usr/lib/systemd/system/bootc-fetch-apply-updates.service
