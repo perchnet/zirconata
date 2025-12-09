@@ -12,10 +12,8 @@ dnf -y remove \
   samba* \
   bind-utils \
   bluez \
-  btrfs-progs \
   chrony \
   criu* \
-  dosfstools \
   efibootmgr \
   ethtool \
   exfatprogs \
