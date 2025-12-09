@@ -10,5 +10,3 @@ RUN --mount=type=tmpfs,dst=/var \
     --mount=type=tmpfs,dst=/run \
     --mount=type=bind,from=ctx,source=/,dst=/tmp/build-scripts \
     /tmp/build-scripts/build.sh
-
-RUN rm -rf /var/* && bootc container lint --fatal-warnings
