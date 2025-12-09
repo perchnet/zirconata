@@ -30,14 +30,14 @@ provision:
       if [ ! -e /etc/systemd/system/docker.socket.d/override.conf ]; then
         mkdir -p /etc/systemd/system/docker.socket.d
         # Alternatively we could just add the user to the "docker" group, but that requires restarting the user session
-        cat <<-EOF >/etc/systemd/system/docker.socket.d/override.conf
+        tee /etc/systemd/system/docker.socket.d/override.conf <<EOF 
         [Socket]
         SocketUser={{.User}}
       EOF
+        systemctl daemon-reload
+        systemctl enable --now docker.socket
+        systemctl restart docker.socket
       fi
-      systemctl daemon-reload
-      systemctl enable --now docker.socket
-      systemctl restart docker.socket
 
 probes:
   - script: |
