@@ -110,8 +110,6 @@ rm -rf /usr/share/man # we are removing man-db anyways
 
 rm -rf /opt
 rm -rf /usr/local
-rm -rf /root
-mkdir /root # Fixes issue with dracut
 ln -sf /var/usrlocal /usr/local
 ln -sf /var/opt /opt
 ln -sf /var/home /Users # macOS compat
