@@ -37,3 +37,5 @@ EOF
 )
 
 ln -sf /var/home /Users # macOS compat
+systemctl mask systemd-firstboot* # this breaks everything
+systemctl mask firewalld
